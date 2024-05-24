@@ -1,70 +1,143 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { View, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native"
+import ThemedDivider from '@/components/ThemedDivider';
+import { temporarilyData } from '@/constants/temporarilyData';
+import { ThemedSection } from '@/components/ThemedSection';
+import ThemedButton from '@/components/ThemedButton';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function Home() {
+    return(
+        <ThemedView style={styles.container}>
+            <ScrollView>
+                <View style={styles.headerContent}>
+                    <ThemedText style={styles.headerText}>
+                        Bem vindo, Usuário!
+                    </ThemedText>
+                    <TouchableOpacity>
+                        <ThemedText>
+                            <MaterialIcons name="notifications" size={24}/>
+                        </ThemedText>
+                    </TouchableOpacity>
+                </View>
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+                <ThemedDivider />
+
+                <View style={styles.workTeams}>
+                    <ThemedText style={styles.bold}>
+                        Equipes de trabalho
+                    </ThemedText>
+                    <View style={styles.workTeamsList}>
+                        {temporarilyData.workTeams.map((workTeam, index) => 
+                        <TouchableOpacity key={index}>
+                            <Image source={require('@/assets/images/noImageTeam.png')} style={styles.teamImage}/>
+                            <ThemedText style={styles.teamName}> {workTeam.name} </ThemedText>
+                        </TouchableOpacity>
+                        )}
+                        <TouchableOpacity >
+                            <MaterialIcons name="add" size={75} color="black" style={styles.addButton}/>
+                            <ThemedText style={styles.teamName}> Add </ThemedText>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <ThemedSection style={styles.section}>
+                    <View style={styles.sectionName}>
+                        <ThemedText>
+                            <MaterialIcons name="calendar-month" size={20}/>
+                        </ThemedText>
+                        
+                        <ThemedText>
+                         Escalas de trabalho
+                        </ThemedText>
+                    </View>
+                    
+
+                    <ThemedButton style={styles.detailsButton}>
+                        <ThemedText>+ Detalhes</ThemedText>
+                    </ThemedButton>
+                </ThemedSection>
+
+                <ThemedSection style={styles.section}>
+                    <View style={styles.sectionName}>
+                        <ThemedText>
+                            <MaterialIcons name="task" size={20}/>
+                        </ThemedText>
+                        
+                        <ThemedText>
+                         Próximas Tarefas
+                        </ThemedText>
+                    </View>
+                    
+
+                    <ThemedButton style={styles.detailsButton}>
+                        <ThemedText>+ Detalhes</ThemedText>
+                    </ThemedButton>
+                </ThemedSection>
+            </ScrollView>
+        </ThemedView>
+    )
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+    container: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingTop: 10
+    },
+    headerText: {
+        fontWeight: "bold",
+        fontSize: 20
+    },
+    bold: {
+        fontWeight: "bold",
+    },
+    headerContent: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    workTeams: {
+        marginTop: 25
+    },
+    workTeamsList: {
+        flexDirection: 'row',
+        gap: 20,
+    },
+    teamImage: {
+        width: 75,
+        height: 75
+    },
+    teamName: {
+        textAlign: 'center',
+        fontSize: 15
+    },
+    addButton: {
+        backgroundColor: '#FFFFFF',
+        width: 75,
+        height: 75,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: '#000000',
+        borderWidth: 1
+    },
+    section: {
+        marginTop: 25,
+        borderRadius: 25,
+        padding: 15,
+        width: '100%',
+        height: 250
+    },
+    sectionName: {
+        flexDirection: 'row'
+    },
+    detailsButton: {
+        position: 'absolute',
+        bottom: 20,
+        left: '50%',
+        transform: [{ translateX: -45 }],
+        paddingVertical: 10,
+        paddingHorizontal: 25
+    }
+})
