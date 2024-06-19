@@ -2,11 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-      height: '100%', 
-  },
-  scrollContainer: {
-      flexGrow: 1,
-      justifyContent: 'center',
+    flex: 1
   },
   leftHeader: {
       alignSelf: 'flex-start',
@@ -42,18 +38,18 @@ export const styles = StyleSheet.create({
       textDecorationLine: "underline"
   },
   logo: {
-      width: 120,
-      height: 120,
-      alignSelf: 'center', // Center the logo horizontally
-      marginTop: 20
+      alignSelf: 'center',
+      
   },
   form: {
+      flex: 1,
       marginTop: 20,
-      paddingBottom: 50, // Ensure there's space at the bottom for better visibility
+      paddingBottom: 50,
       width: '100%',
       borderTopLeftRadius: 100,
       borderTopRightRadius: 100,
       paddingTop: 50,
+      bottom: 0
   },
   formInput: {
       paddingHorizontal: 40
@@ -63,6 +59,11 @@ export const styles = StyleSheet.create({
   },
   button: {
       marginHorizontal: 80,
-      marginTop: 20
+      paddingVertical: 10
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    gap: 25
   }
 })

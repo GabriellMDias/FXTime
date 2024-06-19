@@ -1,22 +1,42 @@
 import { ThemedText } from '@/components/ThemedText';
 import { router } from 'expo-router';
-import React from 'react';
-import { View, Text, Button, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Button, TouchableOpacity, Image, Alert, ScrollView, Dimensions } from 'react-native';
 import { styles } from './styles' 
 import { ThemedSection } from '@/components/ThemedSection';
 import { Ionicons } from '@expo/vector-icons';
 import FormInput from '@/components/FormInput';
 import ThemedButton from '@/components/ThemedButton';
+import axios from 'axios';
 
 export default function Login() {
 
-    const navigateToSignup = () => {
-        router.replace("/login/signup")
-    }
+    const [emailOrPhone, setEmailOrPhone] = useState('');
+    const [password, setPassword] = useState('');
 
-    const makeLogin = () => {
-        router.replace("/(tabs)")
-    }
+    const { width } = Dimensions.get('window');
+    const imageSize = width * 0.6;
+
+    const navigateToSignup = () => {
+        router.replace('/login/signup');
+    };
+
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('http://192.168.1.18:8080/api/login', {
+                emailOrPhone,
+                password,
+            });
+
+            if (response.data) {
+                router.replace('/(tabs)');
+            } else {
+                Alert.alert('Erro', 'Credenciais inválidas');
+            }
+        } catch (error) {
+            Alert.alert('Erro', 'Falha ao realizar login');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -32,26 +52,33 @@ export default function Login() {
                 </ThemedSection>
             </ThemedSection>
 
-            <Image source={require('@/assets/images/Logo.png')} style={styles.logo}/>
+            <Image source={require('@/assets/images/FXTIME-logo.png')} style={[styles.logo, { width: imageSize, height: imageSize }]}/>
 
-            <ThemedSection style={styles.form}>
-                <FormInput 
-                    label='E-mail ou número de telefone'
-                    placeholder='E-mail ou número de telefone' 
-                    viewStyle={styles.formInput}
-                    style={styles.textInputStyle}/>
 
-                <FormInput 
-                    label='Senha'
-                    placeholder='Senha'
-                    secureTextEntry={true} 
-                    viewStyle={styles.formInput}
-                    style={styles.textInputStyle}/>    
+                <ThemedSection style={styles.form}>
+                    <ScrollView contentContainerStyle={styles.scrollContent}>
+                        <FormInput 
+                            label='E-mail ou número de telefone'
+                            placeholder='E-mail ou número de telefone' 
+                            viewStyle={styles.formInput}
+                            style={styles.textInputStyle}
+                            value={emailOrPhone}
+                            onChangeText={setEmailOrPhone}/>
 
-                <ThemedButton style={styles.button} onPress={makeLogin}>
-                    <ThemedText> Log In </ThemedText>
-                </ThemedButton>
-            </ThemedSection>
+                        <FormInput 
+                            label='Senha'
+                            placeholder='Senha'
+                            secureTextEntry={true} 
+                            viewStyle={styles.formInput}
+                            style={styles.textInputStyle}
+                            value={password}
+                            onChangeText={setPassword}/>    
+
+                        <ThemedButton style={styles.button} onPress={handleLogin}>
+                            <ThemedText> Log In </ThemedText>
+                        </ThemedButton>
+                    </ScrollView>
+                </ThemedSection>  
         </View>
     );
 }
