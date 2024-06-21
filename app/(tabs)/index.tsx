@@ -10,7 +10,7 @@ import ThemedButton from '@/components/ThemedButton';
 export default function Home() {
     return(
         <ThemedView style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContent}>
                     <ThemedText style={styles.headerText}>
                         Bem vindo, Usuário!
@@ -37,7 +37,7 @@ export default function Home() {
                         )}
                         <TouchableOpacity >
                             <MaterialIcons name="add" size={75} color="black" style={styles.addButton}/>
-                            <ThemedText style={styles.teamName}> Add </ThemedText>
+                            <ThemedText style={styles.teamName}> Adicionar </ThemedText>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         padding: 15,
         width: '100%',
-        height: 250
+        height: 250,
+        marginBottom: 25
     },
     sectionName: {
         flexDirection: 'row'

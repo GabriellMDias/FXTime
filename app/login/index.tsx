@@ -7,6 +7,7 @@ import { ThemedSection } from '@/components/ThemedSection';
 import { Ionicons } from '@expo/vector-icons';
 import FormInput from '@/components/FormInput';
 import ThemedButton from '@/components/ThemedButton';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 export default function Login() {
@@ -29,6 +30,7 @@ export default function Login() {
             });
 
             if (response.data) {
+                await AsyncStorage.setItem('authToken', response.data.token);
                 router.replace('/(tabs)');
             } else {
                 Alert.alert('Erro', 'Credenciais inválidas');

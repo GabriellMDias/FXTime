@@ -10,16 +10,21 @@ import ThemedButton from "@/components/ThemedButton";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 export default function Add() {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [mode, setMode] = useState<any>('date');
   const [show, setShow] = useState(false);
 
   const descriptionBgColor = useThemeColor({}, 'sectionBackground');
   const descriptionTextColor = useThemeColor({}, 'text');
 
-  const onChange = (event: any, selectedDate: Date) => {
+  const onChange = (event: any, selectedDate: Date | undefined) => {
     const currentDate = selectedDate;
-    setShow(false);
+    if(mode === 'date') {
+        setMode('time')
+    } else {
+        showTimepicker()
+        setShow(false);
+    }
     setDate(currentDate);
   };
 
@@ -59,7 +64,14 @@ export default function Add() {
                         </View>
                         <View style={styles.row}>
                             <ThemedText>
-                                {date.toLocaleString('pt-br', {dateStyle: "short"})}
+                                {date?.toLocaleString('pt-br', 
+                                    {
+                                        day: '2-digit', 
+                                        month: '2-digit', 
+                                        year: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'    
+                                    })}
                             </ThemedText>
                             <TouchableOpacity onPress={showDatepicker}>
                                 <ThemedText>
@@ -107,11 +119,10 @@ export default function Add() {
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
+                    value={date ?? new Date()}
                     mode={mode}
                     is24Hour={true}
-                    onChange={(event, selectedDate) => onChange}
-                    
+                    onChange={(event, selectedDate) => onChange(event,selectedDate)}
                   />
                 )}
             </ScrollView>

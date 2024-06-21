@@ -3,10 +3,6 @@ export const temporarilyData = {
         {
             name: 'Time 1',
             image: '@/assets/images/noImageTeam.png'
-        },
-        {
-            name: 'Time 2',
-            image: '@/assets/images/noImageTeam.png'
         }
     ],
     user: {
