@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/ThemedText';
 import { router } from 'expo-router';
-import React, { useState } from 'react';
-import { View, Text, Button, TouchableOpacity, Image, Alert, ScrollView, Dimensions, Modal } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, TouchableOpacity, Image, Alert, ScrollView, Dimensions, Modal, TextInput } from 'react-native';
 import { styles } from './styles' 
 import { ThemedSection } from '@/components/ThemedSection';
 import { Ionicons } from '@expo/vector-icons';
@@ -21,13 +21,22 @@ export default function Login() {
     const { width } = Dimensions.get('window');
     const imageSize = width * 0.6;
 
+    useEffect(() => {
+        getIp()
+    }, [])
+
+    const getIp = async () => {
+        const ipRes = await AsyncStorage.getItem('ip')
+        setIp(ipRes || "")
+    }
+
     const navigateToSignup = () => {
         router.replace('/login/signup');
     };
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://192.168.1.18:8080/api/login', {
+            const response = await axios.post(`http://${ip}/api/login`, {
                 emailOrPhone,
                 password,
             });
@@ -44,7 +53,7 @@ export default function Login() {
     };
 
     const changeIp = async () => {
-       setModalVisible(true)
+       await AsyncStorage.setItem('ip', ip)
     }  
 
     return (
@@ -62,7 +71,7 @@ export default function Login() {
             </ThemedSection>
 
 
-            <TouchableOpacity style={{position: 'absolute', right: 0, top: 0}} onPress={changeIp}>
+            <TouchableOpacity style={{position: 'absolute', right: 0, top: 0}} onPress={() => setModalVisible(true)}>
                 <Text>.......</Text>
             </TouchableOpacity>
 
@@ -98,7 +107,22 @@ export default function Login() {
                 <Modal
                 visible={modalVisible}
                 >
-                    <Text>test</Text>
+                    <TextInput
+                        value={ip}
+                        onChangeText={setIp}
+                    >
+                    
+                    </TextInput>
+                    <TouchableOpacity onPress={changeIp}>
+                        <Text>
+                            OK
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setModalVisible(false)}>
+                        <Text>
+                            Sair
+                        </Text>
+                    </TouchableOpacity>
                 </Modal>
         </View>
     );

@@ -7,9 +7,13 @@ import { router } from "expo-router";
 import FormInput from "@/components/FormInput";
 import ThemedButton from "@/components/ThemedButton";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Signup() {
+    const [ip, setIp] = useState('')
+
+    
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [userName, setUserName] = useState("");
@@ -18,6 +22,16 @@ export default function Signup() {
 
     const { width } = Dimensions.get('window');
     const imageSize = width * 0.6;
+
+    useEffect(() => {
+        getIp()
+    }, [])
+
+    const getIp = async () => {
+        const ipRes = await AsyncStorage.getItem('ip')
+        setIp(ipRes || "")
+    }
+    
 
     const navigateToLogin = () => {
         router.replace("/login");
@@ -30,7 +44,7 @@ export default function Signup() {
         }
 
         try {
-            const response = await axios.post("http://192.168.1.18:8080/api/register", {
+            const response = await axios.post(`http://${ip}/api/register`, {
                 email,
                 phoneNumber: phone,
                 userName,
