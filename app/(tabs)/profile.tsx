@@ -4,6 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { ScrollView, StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { router } from 'expo-router';
+import { FontAwesome6, Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 export default function Profile() {
     const logOff = async () => {
@@ -14,15 +15,32 @@ export default function Profile() {
     return(
         <ThemedView style={styles.container}>
             <ScrollView>
-                <View style={styles.headerContent}>
-                    <ThemedText style={styles.headerText} onPress={logOff}>
-                        Perfil
-                    </ThemedText>
-                </View>
+                <FontAwesome6 name="circle-user" size={24} color="gray" />
+                <ThemedText>Usuário</ThemedText>
 
                 <ThemedDivider />
 
-                <TouchableOpacity onPress={async () => await AsyncStorage.removeItem('authToken')}>
+                <TouchableOpacity>
+                    <ThemedText>
+                        Editar Informações
+                    </ThemedText>
+                    <MaterialIcons name="edit" size={24} color="black" />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <ThemedText>
+                        Tema
+                    </ThemedText>
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <ThemedText>
+                        Configurações
+                    </ThemedText>
+                    <Ionicons name="settings-sharp" size={24} color="black" />
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={logOff}>
                     <Text>
                         Sair
                     </Text>
