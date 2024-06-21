@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/ThemedText';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { View, Text, Button, TouchableOpacity, Image, Alert, ScrollView, Dimensions } from 'react-native';
+import { View, Text, Button, TouchableOpacity, Image, Alert, ScrollView, Dimensions, Modal } from 'react-native';
 import { styles } from './styles' 
 import { ThemedSection } from '@/components/ThemedSection';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +11,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 export default function Login() {
+
+    const [ip, setIp] = useState('')
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [emailOrPhone, setEmailOrPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -40,6 +43,10 @@ export default function Login() {
         }
     };
 
+    const changeIp = async () => {
+       setModalVisible(true)
+    }  
+
     return (
         <View style={styles.container}>
             <ThemedSection style={styles.leftHeader}>
@@ -53,6 +60,11 @@ export default function Login() {
                     <ThemedText style={styles.secondTextLoginScreen}>Log In</ThemedText>
                 </ThemedSection>
             </ThemedSection>
+
+
+            <TouchableOpacity style={{position: 'absolute', right: 0, top: 0}} onPress={changeIp}>
+                <Text>.......</Text>
+            </TouchableOpacity>
 
             <Image source={require('@/assets/images/FXTIME-logo.png')} style={[styles.logo, { width: imageSize, height: imageSize }]}/>
 
@@ -81,6 +93,13 @@ export default function Login() {
                         </ThemedButton>
                     </ScrollView>
                 </ThemedSection>  
+
+
+                <Modal
+                visible={modalVisible}
+                >
+                    <Text>test</Text>
+                </Modal>
         </View>
     );
 }
