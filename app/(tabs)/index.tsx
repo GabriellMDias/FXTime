@@ -6,14 +6,27 @@ import ThemedDivider from '@/components/ThemedDivider';
 import { temporarilyData } from '@/constants/temporarilyData';
 import { ThemedSection } from '@/components/ThemedSection';
 import ThemedButton from '@/components/ThemedButton';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home() {
+    const [userName, setUserName] = useState('')
+
+    const getName = async () => {
+        const name = await AsyncStorage.getItem('userName')
+        setUserName(name || '')
+    }
+
+    useEffect(()=>{
+        getName()
+    }, [])
+
     return(
         <ThemedView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.headerContent}>
                     <ThemedText style={styles.headerText}>
-                        Bem vindo, Usuário!
+                        Bem vindo, {userName}!
                     </ThemedText>
                     <TouchableOpacity>
                         <ThemedText>

@@ -43,6 +43,7 @@ export default function Login() {
 
             if (response.data) {
                 await AsyncStorage.setItem('authToken', response.data.token);
+                await AsyncStorage.setItem('userName', response.data.user.userName)
                 router.replace('/(tabs)');
             } else {
                 Alert.alert('Erro', 'Credenciais inválidas');
